@@ -238,6 +238,7 @@
     gap: 0.5rem;
   }
   .card-product-media {
+    display: flex;
     aspect-ratio: 3 / 4;
     width: 100%;
     overflow: hidden;
@@ -285,6 +286,31 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  /* Stock-state indicator: dot + label, reusing ink/muted/accent so it reads
+     as part of the same system rather than a bolted-on traffic-light color. */
+  .stock {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+  }
+  .stock::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .stock-in-stock {
+    color: var(--color-ink-soft);
+  }
+  .stock-low-stock {
+    color: var(--color-muted);
+  }
+  .stock-out-of-stock {
+    color: var(--color-accent);
   }
 
   /* Header/utility icon button: plain glyph, no fill/border, dims on hover. */
