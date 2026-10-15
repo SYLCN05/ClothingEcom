@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { GarmentIllustration } from '../components/GarmentIllustration'
-import { getProductById, type StockState } from '../data/products'
+import { getProductById } from '../lib/api'
+import type { Product, StockState } from '../types/product'
 
 const stockLabel: Record<StockState, string> = {
   'in-stock': 'In Stock',
@@ -11,10 +11,42 @@ const stockLabel: Record<StockState, string> = {
 
 export function ProductPage() {
   const { id } = useParams<{ id: string }>()
-  const product = id ? getProductById(id) : undefined
+  const numericId = id ? Number(id) : NaN
+
+  const [product, setProduct] = useState<Product | null | undefined>(undefined)
+
+  useEffect(() => {
+    if (Number.isNaN(numericId)) {
+      setProduct(null)
+      return
+    }
+
+    let cancelled = false
+    setProduct(undefined)
+
+    getProductById(numericId)
+      .then((data) => {
+        if (!cancelled) setProduct(data ?? null)
+      })
+      .catch(() => {
+        if (!cancelled) setProduct(null)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [numericId])
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const [activeImage, setActiveImage] = useState(0)
+
+  if (product === undefined) {
+    return (
+      <main className="container-narrow flex flex-col items-center gap-4 py-24 text-center">
+        <p className="text-[var(--color-ink-soft)]">Loading...</p>
+      </main>
+    )
+  }
 
   if (!product) {
     return (
@@ -45,9 +77,10 @@ export function ProductPage() {
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col gap-3">
           <div className="media aspect-[3/4]">
-            <GarmentIllustration
-              variant={product.variant}
-              className="m-auto h-2/3 w-2/3 text-[var(--color-ink-soft)]"
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="h-full w-full object-cover"
             />
           </div>
           <div className="grid grid-cols-4 gap-3">
@@ -66,9 +99,10 @@ export function ProductPage() {
                 onClick={() => setActiveImage(index)}
                 aria-label={`View image ${index + 1}`}
               >
-                <GarmentIllustration
-                  variant={product.variant}
-                  className="m-auto h-1/2 w-1/2 text-[var(--color-muted)]"
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className="h-full w-full object-cover"
                 />
               </button>
             ))}

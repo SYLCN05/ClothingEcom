@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
-import type { Product } from '../data/products'
-import { GarmentIllustration } from './GarmentIllustration'
+import type { Product } from '../types/product'
 
 type ProductSectionProps = {
   id?: string
@@ -26,9 +25,10 @@ export function ProductSection({ id, title, products }: ProductSectionProps) {
             className="card-product"
           >
             <div className="card-product-media">
-              <GarmentIllustration
-                variant={product.variant}
-                className="m-auto h-1/2 w-1/2 text-[var(--color-ink-soft)]"
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                className="h-full w-full object-cover"
               />
             </div>
             <span className="label-muted">{product.name}</span>

@@ -1,8 +1,8 @@
-import { Route, Routes } from 'react-router-dom'
-import { SiteFooter } from './components/SiteFooter'
-import { SiteHeader } from './components/SiteHeader'
-import { HomePage } from './pages/HomePage'
-import { ProductPage } from './pages/ProductPage'
+import { Route, Routes } from "react-router-dom";
+import { SiteFooter } from "./components/SiteFooter";
+import { SiteHeader } from "./components/SiteHeader";
+import { HomePage } from "./pages/HomePage";
+import { ProductPage } from "./pages/ProductPage";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
 
       <SiteFooter />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
