@@ -7,7 +7,6 @@ public record ProductDto(
     decimal Price,
     decimal? SalePrice,
     string Stock,
-    string Variant,
     string Description,
     string Composition,
     string[] Sizes,

@@ -14,7 +14,7 @@ public class ProductsController(AppDbContext db) : ControllerBase
     {
         var products = await db.Products
             .OrderBy(p => p.Id)
-            .Select(p => new ProductDto(p.Id, p.Name, p.Category, p.Price, p.SalePrice, p.Stock, p.Variant, p.Description, p.Composition, p.Sizes, p.ImageUrl, p.IsNew))
+            .Select(p => new ProductDto(p.Id, p.Name, p.Category, p.Price, p.SalePrice, p.Stock, p.Description, p.Composition, p.Sizes, p.ImageUrl, p.IsNew))
             .ToListAsync();
 
 
@@ -26,7 +26,7 @@ public class ProductsController(AppDbContext db) : ControllerBase
     {
         var product = await db.Products
             .Where(p => p.Id == id)
-            .Select(p => new ProductDto(p.Id, p.Name, p.Category, p.Price, p.SalePrice, p.Stock, p.Variant, p.Description, p.Composition, p.Sizes, p.ImageUrl, p.IsNew))
+            .Select(p => new ProductDto(p.Id, p.Name, p.Category, p.Price, p.SalePrice, p.Stock, p.Description, p.Composition, p.Sizes, p.ImageUrl, p.IsNew))
             .FirstOrDefaultAsync();
 
         return product is null ? NotFound() : Ok(product);

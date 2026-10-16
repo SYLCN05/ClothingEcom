@@ -10,9 +10,6 @@ public class Product
 
     // one of: "in-stock" | "low-stock" | "out-of-stock"
     public string Stock { get; set; } = "in-stock";
-
-    // GarmentVariant key used by the frontend's SVG illustration component
-    public string Variant { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Composition { get; set; } = string.Empty;
     public string[] Sizes { get; set; } = [];

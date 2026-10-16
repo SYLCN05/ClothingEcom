@@ -72,11 +72,6 @@ namespace EcomApi.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<string>("Variant")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Products");
@@ -93,8 +88,7 @@ namespace EcomApi.Migrations
                             Name = "Oversized Wool Coat",
                             Price = 129.9m,
                             Sizes = new[] { "XS", "S", "M", "L", "XL" },
-                            Stock = "in-stock",
-                            Variant = "coat"
+                            Stock = "in-stock"
                         },
                         new
                         {
@@ -108,8 +102,7 @@ namespace EcomApi.Migrations
                             Price = 49.9m,
                             SalePrice = 34.9m,
                             Sizes = new[] { "XS", "S", "M", "L" },
-                            Stock = "low-stock",
-                            Variant = "skirt"
+                            Stock = "low-stock"
                         },
                         new
                         {
@@ -122,8 +115,7 @@ namespace EcomApi.Migrations
                             Name = "Cotton Poplin Shirt",
                             Price = 39.9m,
                             Sizes = new[] { "S", "M", "L", "XL" },
-                            Stock = "in-stock",
-                            Variant = "shirt"
+                            Stock = "in-stock"
                         },
                         new
                         {
@@ -136,8 +128,7 @@ namespace EcomApi.Migrations
                             Name = "Tailored Wide-Leg Trousers",
                             Price = 59.9m,
                             Sizes = new[] { "XS", "S", "M", "L" },
-                            Stock = "in-stock",
-                            Variant = "trousers"
+                            Stock = "in-stock"
                         },
                         new
                         {
@@ -150,8 +141,7 @@ namespace EcomApi.Migrations
                             Name = "Ribbed Knit Sweater",
                             Price = 45.9m,
                             Sizes = new[] { "XS", "S", "M", "L", "XL" },
-                            Stock = "out-of-stock",
-                            Variant = "sweater"
+                            Stock = "out-of-stock"
                         },
                         new
                         {
@@ -164,8 +154,7 @@ namespace EcomApi.Migrations
                             Name = "Belted Trench Jacket",
                             Price = 99.9m,
                             Sizes = new[] { "S", "M", "L", "XL" },
-                            Stock = "in-stock",
-                            Variant = "jacket"
+                            Stock = "in-stock"
                         },
                         new
                         {
@@ -179,8 +168,7 @@ namespace EcomApi.Migrations
                             Price = 89.9m,
                             SalePrice = 69.9m,
                             Sizes = new[] { "S", "M", "L", "XL" },
-                            Stock = "low-stock",
-                            Variant = "jacket"
+                            Stock = "low-stock"
                         },
                         new
                         {
@@ -193,8 +181,7 @@ namespace EcomApi.Migrations
                             Name = "Straight-Leg Jeans",
                             Price = 55.9m,
                             Sizes = new[] { "28", "30", "32", "34", "36" },
-                            Stock = "in-stock",
-                            Variant = "trousers"
+                            Stock = "in-stock"
                         });
                 });
 #pragma warning restore 612, 618

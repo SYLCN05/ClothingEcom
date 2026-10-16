@@ -1,5 +1,3 @@
-import type { GarmentVariant } from '../components/GarmentIllustration'
-
 export type StockState = 'in-stock' | 'low-stock' | 'out-of-stock'
 
 export type Product = {
@@ -9,7 +7,6 @@ export type Product = {
   price: number
   salePrice?: number | null
   stock: StockState
-  variant: GarmentVariant
   description: string
   composition: string
   sizes: string[]
