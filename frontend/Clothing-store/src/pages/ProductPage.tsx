@@ -15,23 +15,19 @@ export function ProductPage() {
   const { id } = useParams<{ id: string }>()
   const numericId = id ? Number(id) : NaN
 
-  const [product, setProduct] = useState<Product | null | undefined>(undefined)
+  const [result, setResult] = useState<{ id: number; product: Product | null } | null>(null)
 
   useEffect(() => {
-    if (Number.isNaN(numericId)) {
-      setProduct(null)
-      return
-    }
+    if (Number.isNaN(numericId)) return
 
     let cancelled = false
-    setProduct(undefined)
 
     getProductById(numericId)
       .then((data) => {
-        if (!cancelled) setProduct(data ?? null)
+        if (!cancelled) setResult({ id: numericId, product: data ?? null })
       })
       .catch(() => {
-        if (!cancelled) setProduct(null)
+        if (!cancelled) setResult({ id: numericId, product: null })
       })
 
     return () => {
@@ -42,7 +38,13 @@ export function ProductPage() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const [activeImage, setActiveImage] = useState(0)
 
-  if (product === undefined) {
+  const effectiveProduct = Number.isNaN(numericId)
+    ? null
+    : result?.id === numericId
+      ? result.product
+      : undefined
+
+  if (effectiveProduct === undefined) {
     return (
       <main className="container-narrow flex flex-col items-center gap-4 py-24 text-center">
         <p className="text-[var(--color-ink-soft)]">Loading...</p>
@@ -50,7 +52,7 @@ export function ProductPage() {
     )
   }
 
-  if (!product) {
+  if (!effectiveProduct) {
     return (
       <main className="container-narrow flex flex-col items-center gap-4 py-24 text-center">
         <h1>Product not found</h1>
@@ -64,7 +66,7 @@ export function ProductPage() {
     )
   }
 
-  const isOutOfStock = product.stock === 'out-of-stock'
+  const isOutOfStock = effectiveProduct.stock === 'out-of-stock'
 
   return (
     <main className="container-page flex flex-col gap-10 py-10">
@@ -73,15 +75,15 @@ export function ProductPage() {
           Home
         </Link>
         <span>/</span>
-        <span>{product.category}</span>
+        <span>{effectiveProduct.category}</span>
       </nav>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col gap-3">
           <div className="media aspect-[3/4]">
             <img
-              src={product.imageUrl}
-              alt={product.name}
+              src={effectiveProduct.imageUrl}
+              alt={effectiveProduct.name}
               className="h-full w-full object-cover"
             />
           </div>
@@ -102,8 +104,8 @@ export function ProductPage() {
                 aria-label={`View image ${index + 1}`}
               >
                 <img
-                  src={product.imageUrl}
-                  alt={product.name}
+                  src={effectiveProduct.imageUrl}
+                  alt={effectiveProduct.name}
                   className="h-full w-full object-cover"
                 />
               </button>
@@ -113,37 +115,37 @@ export function ProductPage() {
 
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <span className="label-muted">{product.category}</span>
-            <h1>{product.name}</h1>
-            {product.salePrice ? (
+            <span className="label-muted">{effectiveProduct.category}</span>
+            <h1>{effectiveProduct.name}</h1>
+            {effectiveProduct.salePrice ? (
               <span className="flex items-baseline gap-3">
                 <span className="price price-sale text-lg">
-                  ${product.salePrice.toFixed(2)}
+                  ${effectiveProduct.salePrice.toFixed(2)}
                 </span>
                 <span className="price text-base text-[var(--color-muted)] line-through">
-                  ${product.price.toFixed(2)}
+                  ${effectiveProduct.price.toFixed(2)}
                 </span>
               </span>
             ) : (
               <span className="price text-lg">
-                ${product.price.toFixed(2)}
+                ${effectiveProduct.price.toFixed(2)}
               </span>
             )}
-            <span className={`stock stock-${product.stock}`}>
-              {stockLabel[product.stock]}
+            <span className={`stock stock-${effectiveProduct.stock}`}>
+              {stockLabel[effectiveProduct.stock]}
             </span>
           </div>
 
           <hr className="divider" />
 
           <p className="text-[var(--color-ink-soft)]">
-            {product.description}
+            {effectiveProduct.description}
           </p>
 
           <div className="flex flex-col gap-3">
             <span className="label-muted">Size</span>
             <div className="flex flex-wrap gap-2">
-              {product.sizes.map((size) => (
+              {effectiveProduct.sizes.map((size) => (
                 <button
                   key={size}
                   type="button"
@@ -163,7 +165,7 @@ export function ProductPage() {
             type="button"
             className="btn btn-primary w-full"
             disabled={isOutOfStock || !selectedSize}
-            onClick={() => selectedSize && cart.addItem(product, selectedSize, 1)}
+            onClick={() => selectedSize && cart.addItem(effectiveProduct, selectedSize, 1)}
           >
             {isOutOfStock ? 'Sold Out' : 'Add to Bag'}
           </button>
@@ -175,7 +177,7 @@ export function ProductPage() {
               Composition &amp; Care
             </summary>
             <p className="pt-3 text-sm text-[var(--color-ink-soft)]">
-              {product.composition}
+              {effectiveProduct.composition}
             </p>
           </details>
 

@@ -13,6 +13,8 @@ namespace EcomApi.Controllers;
 [Authorize]
 public class CartController(AppDbContext db) : ControllerBase
 {
+    private const int MaxQuantityPerLine = 10;
+
     private int CurrentUserId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
     [HttpGet]
@@ -29,18 +31,34 @@ public class CartController(AppDbContext db) : ControllerBase
             return BadRequest(new { error = "Quantity must be at least 1." });
         }
 
-        var productExists = await db.Products.AnyAsync(p => p.Id == request.ProductId);
-        if (!productExists)
+        var product = await db.Products.FirstOrDefaultAsync(p => p.Id == request.ProductId);
+        if (product is null)
         {
             return NotFound(new { error = "Product not found." });
+        }
+
+        if (product.Stock == "out-of-stock")
+        {
+            return BadRequest(new { error = "This product is out of stock." });
+        }
+
+        if (!product.Sizes.Contains(request.Size))
+        {
+            return BadRequest(new { error = "Invalid size for this product." });
         }
 
         var existing = await db.CartItems.FirstOrDefaultAsync(c =>
             c.UserId == CurrentUserId && c.ProductId == request.ProductId && c.Size == request.Size);
 
+        var newQuantity = (existing?.Quantity ?? 0) + request.Quantity;
+        if (newQuantity > MaxQuantityPerLine)
+        {
+            return BadRequest(new { error = $"Quantity cannot exceed {MaxQuantityPerLine} per item." });
+        }
+
         if (existing is not null)
         {
-            existing.Quantity += request.Quantity;
+            existing.Quantity = newQuantity;
         }
         else
         {
@@ -63,6 +81,11 @@ public class CartController(AppDbContext db) : ControllerBase
         if (request.Quantity < 1)
         {
             return BadRequest(new { error = "Quantity must be at least 1." });
+        }
+
+        if (request.Quantity > MaxQuantityPerLine)
+        {
+            return BadRequest(new { error = $"Quantity cannot exceed {MaxQuantityPerLine} per item." });
         }
 
         var item = await db.CartItems.FirstOrDefaultAsync(c => c.Id == id && c.UserId == CurrentUserId);
@@ -99,10 +122,9 @@ public class CartController(AppDbContext db) : ControllerBase
         }
 
         var productIds = request.Items.Select(i => i.ProductId).ToHashSet();
-        var validProductIds = await db.Products
+        var products = await db.Products
             .Where(p => productIds.Contains(p.Id))
-            .Select(p => p.Id)
-            .ToHashSetAsync();
+            .ToDictionaryAsync(p => p.Id);
 
         var existingItems = await db.CartItems
             .Where(c => c.UserId == CurrentUserId)
@@ -110,7 +132,10 @@ public class CartController(AppDbContext db) : ControllerBase
 
         foreach (var line in request.Items)
         {
-            if (!validProductIds.Contains(line.ProductId) || line.Quantity < 1)
+            if (!products.TryGetValue(line.ProductId, out var product) ||
+                line.Quantity < 1 ||
+                product.Stock == "out-of-stock" ||
+                !product.Sizes.Contains(line.Size))
             {
                 continue;
             }
@@ -118,7 +143,7 @@ public class CartController(AppDbContext db) : ControllerBase
             var existing = existingItems.FirstOrDefault(c => c.ProductId == line.ProductId && c.Size == line.Size);
             if (existing is not null)
             {
-                existing.Quantity += line.Quantity;
+                existing.Quantity = Math.Min(existing.Quantity + line.Quantity, MaxQuantityPerLine);
             }
             else
             {
@@ -127,7 +152,7 @@ public class CartController(AppDbContext db) : ControllerBase
                     UserId = CurrentUserId,
                     ProductId = line.ProductId,
                     Size = line.Size,
-                    Quantity = line.Quantity,
+                    Quantity = Math.Min(line.Quantity, MaxQuantityPerLine),
                 };
                 db.CartItems.Add(newItem);
                 existingItems.Add(newItem);

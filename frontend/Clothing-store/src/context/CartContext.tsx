@@ -3,15 +3,21 @@ import type { ReactNode } from 'react'
 import { useAuth } from './useAuth'
 import { CartContext } from './cartContextDefinition'
 import * as cartApi from '../lib/cart'
+import { MAX_CART_QUANTITY } from '../lib/cart'
 import { clearGuestCart, readGuestCart, writeGuestCart } from '../lib/guestCart'
 import type { CartLine } from '../types/cart'
 import type { Product } from '../types/product'
 
 function mergeLocalLine(lines: CartLine[], line: CartLine): CartLine[] {
   const index = lines.findIndex((l) => l.productId === line.productId && l.size === line.size)
-  if (index === -1) return [...lines, line]
+  if (index === -1) {
+    return [...lines, { ...line, quantity: Math.min(line.quantity, MAX_CART_QUANTITY) }]
+  }
   const next = [...lines]
-  next[index] = { ...next[index], quantity: next[index].quantity + line.quantity }
+  next[index] = {
+    ...next[index],
+    quantity: Math.min(next[index].quantity + line.quantity, MAX_CART_QUANTITY),
+  }
   return next
 }
 
@@ -58,9 +64,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const result = await cartApi.updateCartItem(line.id, quantity)
       setItems(result)
     } else {
+      const clamped = Math.min(quantity, MAX_CART_QUANTITY)
       setItems((prev) => {
         const next = prev.map((l) =>
-          l.productId === line.productId && l.size === line.size ? { ...l, quantity } : l,
+          l.productId === line.productId && l.size === line.size ? { ...l, quantity: clamped } : l,
         )
         writeGuestCart(next)
         return next

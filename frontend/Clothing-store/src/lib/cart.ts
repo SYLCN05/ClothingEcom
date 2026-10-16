@@ -1,14 +1,8 @@
-import { apiFetch, ApiError } from './api'
+import { apiFetch, ApiError, parseErrorMessage } from './api'
 import type { CartLine } from '../types/cart'
 
-async function parseErrorMessage(res: Response): Promise<string> {
-  try {
-    const body = await res.json()
-    return body.error ?? `Request failed (${res.status})`
-  } catch {
-    return `Request failed (${res.status})`
-  }
-}
+// keep in sync with CartController.MaxQuantityPerLine on the backend
+export const MAX_CART_QUANTITY = 10
 
 async function cartResponse(res: Response): Promise<CartLine[]> {
   if (!res.ok) throw new ApiError(res.status, await parseErrorMessage(res))

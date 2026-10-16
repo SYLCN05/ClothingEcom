@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { useCart } from '../context/useCart'
+import { MAX_CART_QUANTITY } from '../lib/cart'
 
 export function BagDrawer() {
   const auth = useAuth()
@@ -90,6 +91,7 @@ export function BagDrawer() {
                           type="button"
                           className="icon-btn"
                           aria-label="Increase quantity"
+                          disabled={line.quantity >= MAX_CART_QUANTITY}
                           onClick={() => cart.updateQuantity(line, line.quantity + 1)}
                         >
                           +

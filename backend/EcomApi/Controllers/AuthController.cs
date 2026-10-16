@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using EcomApi.Data;
 using EcomApi.Dtos;
 using EcomApi.Models;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
@@ -16,6 +18,8 @@ namespace EcomApi.Controllers;
 [Route("api/auth")]
 public class AuthController(AppDbContext db) : ControllerBase
 {
+    private static readonly Regex EmailPattern = new(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.Compiled);
+
     [HttpPost("register")]
     [AllowAnonymous]
     public async Task<ActionResult<UserDto>> Register(RegisterRequest request)
@@ -42,6 +46,11 @@ public class AuthController(AppDbContext db) : ControllerBase
         }
 
         var email = request.Email.Trim().ToLowerInvariant();
+
+        if (!EmailPattern.IsMatch(email))
+        {
+            return BadRequest(new { error = "Enter a valid email address." });
+        }
 
         var exists = await db.Users.AnyAsync(u => u.Email == email);
         if (exists)
@@ -76,6 +85,7 @@ public class AuthController(AppDbContext db) : ControllerBase
 
     [HttpPost("login")]
     [AllowAnonymous]
+    [EnableRateLimiting("login")]
     public async Task<ActionResult<UserDto>> Login(LoginRequest request)
     {
         var email = request.Email.Trim().ToLowerInvariant();

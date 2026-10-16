@@ -17,6 +17,15 @@ export async function apiFetch(path: string, options?: RequestInit): Promise<Res
   });
 }
 
+export async function parseErrorMessage(res: Response): Promise<string> {
+  try {
+    const body = await res.json()
+    return body.error ?? `Request failed (${res.status})`
+  } catch {
+    return `Request failed (${res.status})`
+  }
+}
+
 export async function getProducts(): Promise<Product[]> {
   const res = await apiFetch('/api/products')
   if (!res.ok) throw new Error(`Failed to load products (${res.status})`)
