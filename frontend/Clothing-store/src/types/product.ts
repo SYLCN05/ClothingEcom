@@ -14,4 +14,5 @@ export type Product = {
   composition: string
   sizes: string[]
   imageUrl: string
+  isNew: boolean
 }

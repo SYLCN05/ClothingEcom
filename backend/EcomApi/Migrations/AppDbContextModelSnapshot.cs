@@ -47,6 +47,9 @@ namespace EcomApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsNew")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -86,6 +89,7 @@ namespace EcomApi.Migrations
                             Composition = "80% Wool, 20% Polyamide",
                             Description = "A relaxed, oversized coat cut from a heavyweight wool blend. Dropped shoulders, side pockets, and a single-button closure.",
                             ImageUrl = "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=800&q=80&fit=crop&auto=format",
+                            IsNew = true,
                             Name = "Oversized Wool Coat",
                             Price = 129.9m,
                             Sizes = new[] { "XS", "S", "M", "L", "XL" },
@@ -99,6 +103,7 @@ namespace EcomApi.Migrations
                             Composition = "100% Polyester",
                             Description = "A fluid pleated midi skirt with an elasticated waistband. Falls just below the knee for easy movement.",
                             ImageUrl = "https://images.unsplash.com/photo-1533659828870-95ee305cee3e?w=800&q=80&fit=crop&auto=format",
+                            IsNew = false,
                             Name = "Pleated Midi Skirt",
                             Price = 49.9m,
                             SalePrice = 34.9m,
@@ -113,6 +118,7 @@ namespace EcomApi.Migrations
                             Composition = "100% Cotton",
                             Description = "A crisp poplin shirt with a classic collar and regular fit. Finished with mother-of-pearl buttons.",
                             ImageUrl = "https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800&q=80&fit=crop&auto=format",
+                            IsNew = false,
                             Name = "Cotton Poplin Shirt",
                             Price = 39.9m,
                             Sizes = new[] { "S", "M", "L", "XL" },
@@ -126,6 +132,7 @@ namespace EcomApi.Migrations
                             Composition = "68% Viscose, 30% Polyester, 2% Elastane",
                             Description = "High-rise tailored trousers with a wide, fluid leg and a concealed front closure. Fully lined.",
                             ImageUrl = "https://images.unsplash.com/photo-1687825515654-23620796760c?w=800&q=80&fit=crop&auto=format",
+                            IsNew = false,
                             Name = "Tailored Wide-Leg Trousers",
                             Price = 59.9m,
                             Sizes = new[] { "XS", "S", "M", "L" },
@@ -139,6 +146,7 @@ namespace EcomApi.Migrations
                             Composition = "55% Cotton, 45% Acrylic",
                             Description = "A fine-ribbed pullover with a round neckline and dropped shoulder seams. Soft, year-round weight.",
                             ImageUrl = "https://images.unsplash.com/photo-1574201635302-388dd92a4c3f?w=800&q=80&fit=crop&auto=format",
+                            IsNew = true,
                             Name = "Ribbed Knit Sweater",
                             Price = 45.9m,
                             Sizes = new[] { "XS", "S", "M", "L", "XL" },
@@ -152,6 +160,7 @@ namespace EcomApi.Migrations
                             Composition = "100% Cotton",
                             Description = "A water-resistant trench jacket with a tie belt, storm flap, and welt pockets. Lightly structured shoulders.",
                             ImageUrl = "https://images.unsplash.com/photo-1676716105765-e19fe6a01851?w=800&q=80&fit=crop&auto=format",
+                            IsNew = true,
                             Name = "Belted Trench Jacket",
                             Price = 99.9m,
                             Sizes = new[] { "S", "M", "L", "XL" },
@@ -165,6 +174,7 @@ namespace EcomApi.Migrations
                             Composition = "55% Linen, 45% Viscose",
                             Description = "An unstructured blazer in a breathable linen blend. Notched lapel, two-button closure, single back vent.",
                             ImageUrl = "https://images.unsplash.com/photo-1740710370552-a49b5b01f80a?w=800&q=80&fit=crop&auto=format",
+                            IsNew = false,
                             Name = "Linen-Blend Blazer",
                             Price = 89.9m,
                             SalePrice = 69.9m,
@@ -179,6 +189,7 @@ namespace EcomApi.Migrations
                             Composition = "100% Cotton",
                             Description = "Mid-rise straight-leg jeans in a rigid, non-stretch denim that softens with wear.",
                             ImageUrl = "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=800&q=80&fit=crop&auto=format",
+                            IsNew = true,
                             Name = "Straight-Leg Jeans",
                             Price = 55.9m,
                             Sizes = new[] { "28", "30", "32", "34", "36" },

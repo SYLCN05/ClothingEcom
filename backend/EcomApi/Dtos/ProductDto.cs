@@ -11,4 +11,5 @@ public record ProductDto(
     string Description,
     string Composition,
     string[] Sizes,
-    string ImageUrl);
+    string ImageUrl,
+    bool IsNew);

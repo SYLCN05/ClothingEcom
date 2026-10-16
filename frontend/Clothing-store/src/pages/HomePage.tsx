@@ -38,7 +38,12 @@ export function HomePage() {
           Couldn't load products right now. Please try again later.
         </p>
       ) : (
-        <ProductSection id="new-in" title="New In" products={products} />
+        <ProductSection
+          id="new-in"
+          title="New In"
+          products={products.filter((product) => product.isNew)}
+          viewAllHref="/new-in"
+        />
       )}
       <Newsletter />
     </main>

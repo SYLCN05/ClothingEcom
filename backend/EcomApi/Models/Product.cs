@@ -17,4 +17,5 @@ public class Product
     public string Composition { get; set; } = string.Empty;
     public string[] Sizes { get; set; } = [];
     public string ImageUrl { get; set; } = string.Empty;
+    public bool IsNew { get; set; }
 }

@@ -35,6 +35,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     Composition = "80% Wool, 20% Polyamide",
                     Sizes = ["XS", "S", "M", "L", "XL"],
                     ImageUrl = "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=800&q=80&fit=crop&auto=format",
+                    IsNew = true,
                 },
                 new Product
                 {
@@ -88,6 +89,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     Composition = "55% Cotton, 45% Acrylic",
                     Sizes = ["XS", "S", "M", "L", "XL"],
                     ImageUrl = "https://images.unsplash.com/photo-1574201635302-388dd92a4c3f?w=800&q=80&fit=crop&auto=format",
+                    IsNew = true,
                 },
                 new Product
                 {
@@ -101,6 +103,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     Composition = "100% Cotton",
                     Sizes = ["S", "M", "L", "XL"],
                     ImageUrl = "https://images.unsplash.com/photo-1676716105765-e19fe6a01851?w=800&q=80&fit=crop&auto=format",
+                    IsNew = true,
                 },
                 new Product
                 {
@@ -128,6 +131,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     Composition = "100% Cotton",
                     Sizes = ["28", "30", "32", "34", "36"],
                     ImageUrl = "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=800&q=80&fit=crop&auto=format",
+                    IsNew = true,
                 }
             );
         });

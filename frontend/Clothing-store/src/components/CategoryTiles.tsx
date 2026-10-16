@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom'
 import { GarmentIllustration } from './GarmentIllustration'
 import type { GarmentVariant } from './GarmentIllustration'
 
-const categories: { name: string; variant: GarmentVariant }[] = [
-  { name: 'Women', variant: 'skirt' },
-  { name: 'Men', variant: 'shirt' },
-  { name: 'New In', variant: 'coat' },
+const categories: { name: string; variant: GarmentVariant; href: string }[] = [
+  { name: 'Women', variant: 'skirt', href: '/women' },
+  { name: 'Men', variant: 'shirt', href: '/men' },
+  { name: 'New In', variant: 'coat', href: '/new-in' },
 ]
 
 export function CategoryTiles() {
@@ -12,7 +13,7 @@ export function CategoryTiles() {
     <section className="container-page">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {categories.map((category) => (
-          <a key={category.name} href="#" className="relative block">
+          <Link key={category.name} to={category.href} className="relative block">
             <div className="media aspect-[4/5]">
               <GarmentIllustration
                 variant={category.variant}
@@ -24,7 +25,7 @@ export function CategoryTiles() {
                 {category.name}
               </span>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
