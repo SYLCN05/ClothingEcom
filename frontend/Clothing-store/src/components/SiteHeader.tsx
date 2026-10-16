@@ -21,7 +21,7 @@ export function SiteHeader() {
   const [searchOpen, setSearchOpen] = useState(false)
 
   return (
-    <header className="divider sticky top-0 z-10 border-b bg-[var(--color-paper)]">
+    <header className="divider sticky top-0 z-10 border-b bg-paper">
       <div className="container-page flex items-center justify-between py-5">
         <Link to="/" className="text-lg tracking-[0.2em] uppercase">
           Clothing Store

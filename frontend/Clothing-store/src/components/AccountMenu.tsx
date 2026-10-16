@@ -38,7 +38,7 @@ export function AccountMenu() {
         <UserIcon />
       </button>
       {open && (
-        <div className="absolute right-0 top-full z-20 mt-2 flex w-48 flex-col gap-3 border border-[var(--color-border)] bg-[var(--color-paper)] p-4">
+        <div className="absolute right-0 top-full z-20 mt-2 flex w-48 flex-col gap-3 border border-border bg-paper p-4">
           <span className="label-muted">Hi, {auth.user?.firstName}</span>
           <button type="button" className="btn btn-ghost" onClick={handleLogout}>
             Log out

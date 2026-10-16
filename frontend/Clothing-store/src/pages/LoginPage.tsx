@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { FormEvent } from 'react'
+import type { SubmitEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { useCart } from '../context/useCart'
@@ -18,7 +18,7 @@ export function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
-  async function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: SubmitEvent) {
     event.preventDefault()
     setError(null)
 
@@ -68,12 +68,12 @@ export function LoginPage() {
             autoComplete="current-password"
           />
         </label>
-        {error && <p className="text-sm text-[var(--color-accent)]">{error}</p>}
+        {error && <p className="text-sm text-accent">{error}</p>}
         <button type="submit" className="btn btn-primary" disabled={submitting}>
           {submitting ? 'Logging in...' : 'Log in'}
         </button>
       </form>
-      <p className="text-sm text-[var(--color-ink-soft)]">
+      <p className="text-sm text-ink-soft">
         New here?{' '}
         <Link to="/register" state={state} className="link">
           Create an account

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { FormEvent } from 'react'
+import type { SubmitEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { useCart } from '../context/useCart'
@@ -32,7 +32,7 @@ export function RegisterPage() {
     setForm((prev) => ({ ...prev, [key]: value }))
   }
 
-  async function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: SubmitEvent) {
     event.preventDefault()
     setError(null)
 
@@ -151,12 +151,12 @@ export function RegisterPage() {
             autoComplete="new-password"
           />
         </label>
-        {error && <p className="text-sm text-[var(--color-accent)]">{error}</p>}
+        {error && <p className="text-sm text-accent">{error}</p>}
         <button type="submit" className="btn btn-primary" disabled={submitting}>
           {submitting ? 'Creating account...' : 'Create account'}
         </button>
       </form>
-      <p className="text-sm text-[var(--color-ink-soft)]">
+      <p className="text-sm text-ink-soft">
         Already have an account?{' '}
         <Link to="/login" state={state} className="link">
           Log in
