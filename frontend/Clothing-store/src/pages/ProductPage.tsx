@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { useCart } from '../context/useCart'
 import { getProductById } from '../lib/api'
 import type { Product, StockState } from '../types/product'
 
@@ -10,6 +11,7 @@ const stockLabel: Record<StockState, string> = {
 }
 
 export function ProductPage() {
+  const cart = useCart()
   const { id } = useParams<{ id: string }>()
   const numericId = id ? Number(id) : NaN
 
@@ -161,6 +163,7 @@ export function ProductPage() {
             type="button"
             className="btn btn-primary w-full"
             disabled={isOutOfStock || !selectedSize}
+            onClick={() => selectedSize && cart.addItem(product, selectedSize, 1)}
           >
             {isOutOfStock ? 'Sold Out' : 'Add to Bag'}
           </button>

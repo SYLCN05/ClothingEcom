@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/useAuth'
+import { useCart } from '../context/useCart'
+import { AccountMenu } from './AccountMenu'
 import { BagIcon, SearchIcon, UserIcon } from './icons'
 
 const navItems = [
@@ -10,6 +13,10 @@ const navItems = [
 ]
 
 export function SiteHeader() {
+  const auth = useAuth()
+  const cart = useCart()
+  const navigate = useNavigate()
+  const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
 
@@ -46,11 +53,28 @@ export function SiteHeader() {
           >
             <SearchIcon />
           </button>
-          <button type="button" className="icon-btn" aria-label="Account">
-            <UserIcon />
-          </button>
-          <button type="button" className="icon-btn" aria-label="Bag">
+          {auth.status === 'authenticated' ? (
+            <AccountMenu />
+          ) : (
+            <button
+              type="button"
+              className="icon-btn"
+              aria-label="Account"
+              onClick={() => navigate('/login', { state: { from: location } })}
+            >
+              <UserIcon />
+            </button>
+          )}
+          <button
+            type="button"
+            className="icon-btn relative"
+            aria-label="Bag"
+            onClick={cart.openDrawer}
+          >
             <BagIcon />
+            {cart.itemCount > 0 && (
+              <span className="badge">{cart.itemCount > 9 ? '9+' : cart.itemCount}</span>
+            )}
           </button>
           <button
             type="button"

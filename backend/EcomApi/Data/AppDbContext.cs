@@ -6,6 +6,8 @@ namespace EcomApi.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<CartItem> CartItems => Set<CartItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -125,6 +127,28 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     IsNew = true,
                 }
             );
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.Property(u => u.FirstName).IsRequired().HasMaxLength(100);
+            entity.Property(u => u.LastName).IsRequired().HasMaxLength(100);
+            entity.Property(u => u.Email).IsRequired().HasMaxLength(256);
+            entity.Property(u => u.PasswordHash).IsRequired();
+            entity.Property(u => u.PostalCode).IsRequired().HasMaxLength(20);
+            entity.Property(u => u.Street).IsRequired().HasMaxLength(200);
+            entity.Property(u => u.HouseNumber).IsRequired().HasMaxLength(20);
+            entity.HasIndex(u => u.Email).IsUnique();
+        });
+
+        modelBuilder.Entity<CartItem>(entity =>
+        {
+            entity.Property(c => c.Size).IsRequired().HasMaxLength(20);
+            entity.HasIndex(c => new { c.UserId, c.ProductId, c.Size }).IsUnique();
+            entity.HasOne(c => c.User).WithMany(u => u.CartItems)
+                .HasForeignKey(c => c.UserId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(c => c.Product).WithMany()
+                .HasForeignKey(c => c.ProductId).OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

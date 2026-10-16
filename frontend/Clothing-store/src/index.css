@@ -311,6 +311,55 @@
     color: var(--color-accent);
   }
 
+  /* Bag-icon item-count badge — the one deliberate radius in this system. */
+  .badge {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1rem;
+    height: 1rem;
+    padding-inline: 0.25rem;
+    border-radius: 999px;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-size: 0.625rem;
+    line-height: 1;
+  }
+
+  /* Bag drawer: backdrop fades in, panel slides in from the right. */
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgb(0 0 0 / 40%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease;
+  }
+  .drawer-backdrop-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .drawer-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 41;
+    height: 100%;
+    width: 100%;
+    max-width: 26rem;
+    background: var(--color-paper);
+    transform: translateX(100%);
+    transition: transform 250ms ease;
+  }
+  .drawer-panel-open {
+    transform: translateX(0);
+  }
+
   /* Header/utility icon button: plain glyph, no fill/border, dims on hover. */
   .icon-btn {
     display: inline-flex;

@@ -2,6 +2,14 @@ import type { Product } from '../types/product'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+export class ApiError extends Error {
+  status: number
+  constructor(status: number, message: string) {
+    super(message)
+    this.status = status
+  }
+}
+
 export async function apiFetch(path: string, options?: RequestInit): Promise<Response> {
   return fetch(`${API_URL}${path}`, {
     credentials: "include",
