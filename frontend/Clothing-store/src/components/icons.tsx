@@ -39,12 +39,3 @@ export function BagIcon({ className }: IconProps) {
     </svg>
   )
 }
-
-export function ArrowRightIcon({ className }: IconProps) {
-  return (
-    <svg {...base} className={className} aria-hidden="true">
-      <path d="M3.5 10h13" />
-      <path d="M10.5 4.5 16 10l-5.5 5.5" />
-    </svg>
-  )
-}

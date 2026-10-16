@@ -7,7 +7,7 @@ const columns = [
 export function SiteFooter() {
   return (
     <footer className="container-page flex flex-col gap-10 py-16">
-      <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 ml-[20vw]">
+      <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
         {columns.map((column) => (
           <div key={column.heading} className="flex flex-col gap-4">
             <span className="label">{column.heading}</span>

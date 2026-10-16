@@ -5,7 +5,7 @@ export function Hero() {
     <section className="relative">
       <div className="media aspect-[4/5] sm:aspect-[16/9] lg:aspect-[21/9]">
         <GarmentIllustration
-          variant="coat"
+          variant="jacket"
           className="m-auto h-1/2 w-1/2 text-[var(--color-border-strong)] sm:h-2/3 sm:w-2/3"
         />
       </div>

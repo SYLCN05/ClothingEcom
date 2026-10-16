@@ -12,7 +12,7 @@
   --color-accent: #c5102e;
   --color-accent-soft: #f6e3e6;
 
-  --font-sans: "Helvetica Neue", Helvetica, Arial, "Inter", system-ui, sans-serif;
+  --font-sans: "Instrument Sans", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
 
   --radius-none: 0px;
   --radius-sm: 1px;
@@ -126,11 +126,10 @@
     color: var(--color-muted);
   }
 
-  /* Primary navigation link: tracked caps, underline reveals on hover, no fill or border. */
+  /* Primary navigation link: sentence case, underline reveals on hover, no fill or border. */
   .nav-link {
-    font-size: 0.75rem;
-    letter-spacing: var(--tracking-nav);
-    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 500;
     color: var(--color-ink);
     padding-block: 0.25rem;
     border-bottom: 1px solid transparent;
@@ -157,9 +156,8 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-size: 0.75rem;
-    letter-spacing: var(--tracking-nav);
-    text-transform: uppercase;
+    font-size: 0.8125rem;
+    font-weight: 500;
     padding: 0.875rem 1.75rem;
     border: 1px solid transparent;
     transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
