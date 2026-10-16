@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { SubmitEvent } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { useCart } from '../context/useCart'
 import { ApiError } from '../lib/api'
@@ -17,6 +17,10 @@ export function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
+
+  if (auth.status === 'authenticated') {
+    return <Navigate to={state?.from?.pathname ?? '/'} replace />
+  }
 
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault()
